@@ -26,12 +26,18 @@ EOF
 # Create the the EOS Web database
 sudo -u postgres pg_restore -Fc -C -d postgres  $EOS_DIR/djangodb.psql
 
-# # Create and give ownership to the EOS user
+# # Give ownership to the EOS user
 # sudo -u postgres  cat <<EOF | sudo -u postgres psql
-# -- Create the database user:
-# CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
 # ALTER DATABASE $EOS_DB OWNER TO $EOS_USER;
 # EOF
 
 
+# wire up web configuration 
 
+sudo rm  /etc/nginx/sites-enabled/default
+
+sudo ln -s /srv/eos/website/website/website_nginx.conf /etc/nginx/sites-available
+sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enables/website_nginx.conf
+
+sudo ln -s /srv/eos/website/website/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
+sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
