@@ -32,12 +32,23 @@ sudo -u postgres pg_restore -Fc -C -d postgres  $EOS_DIR/djangodb.psql
 # EOF
 
 
-# wire up web configuration 
+# wire up web app configuration 
 
 sudo rm  /etc/nginx/sites-enabled/default
 
-sudo ln -s /srv/eos/website/website/website_nginx.conf /etc/nginx/sites-available
-sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enables/website_nginx.conf
+sudo ln -s /srv/eos/website/website/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
+sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
 sudo ln -s /srv/eos/website/website/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
 sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
+
+
+# do ssl stuff
+SSLDIR=/etc/ssl/lib-26/
+sudo mkdir $SSLDIR
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key -out $SSLDIR/bundle.crt -days 3650 -subj /CN=eos.vm
+
+# restart web server
+sudo service nginx restart
+
+
