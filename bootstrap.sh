@@ -13,14 +13,15 @@ sudo apt-get -y install openssh-server
 sudo apt-get -y install build-essential automake libtool
 
 # Utilities
-sudo apt-get -y install git wget curl tree psmisc emacs24-nox vim
+sudo apt-get -y install git wget curl tree psmisc emacs24-nox vim ack-grep
+sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 
 # vmfriendly ntpd replacement
 sudo apt-get -y install chrony
 
 
 # python and pip
-sudo apt-get install python python-pip
+sudo apt-get install -y python python-pip
 sudo pip install -U pip
 
 # Install Postgresql
@@ -35,4 +36,3 @@ sudo apt-get install -y nginx-full uwsgi uwsgi-plugin-python
 
 # bindfs to remount nfs shares
 sudo apt-get install -y bindfs
-
