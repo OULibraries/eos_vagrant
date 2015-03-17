@@ -4,6 +4,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
+   config.vm.hostname = "eos.vm"
 
   if Vagrant.has_plugin?("vagrant-cachier")
     # Configure cached packages to be shared between instances of the same base box.
@@ -26,28 +27,17 @@ Vagrant.configure(2) do |config|
 
 
 
-  if Vagrant.has_plugin?("vagrant-dnsmasq")
+  if Vagrant.has_plugin?("landrush")
 
-    # set domain ending (required)
-    # adding this line enables dnsmasq handling
-    config.dnsmasq.domain = '.vvv'
-
-
-    # 'vagrant destroy' does not delete /etc/resolver nameserver file, defaults to false
-    config.dnsmasq.keep_resolver_on_destroy = true
-
-    # overwrite default location for /etc/dnsmasq.conf
-    config.dnsmasq.dnsmasqconf = '/usr/local/etc/dnsmasq.conf'
-
-    # command for reloading dnsmasq after config changes
-    config.dnsmasq.reload_command = 'sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist; sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
+    config.landrush.tld = 'vm'
+    config.landrush.enabled = true
 
   end
 
 
 
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
-  config.bindfs.bind_folder "/vagrant/srv/eos", "/srv/eos" 
+  config.bindfs.bind_folder "/vagrant/srv/eos", "/srv/eos", :force_user =>"www-data"
 
 
   
