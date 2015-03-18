@@ -3,7 +3,13 @@
 EOS_DIR=/srv/eos
 
 # create service account for eos
-sudo useradd --system eosweb 
+sudo useradd --system eosweb
+
+# make legacy paths until we have time to clean them up
+sudo mkdir /home/editionopenacess/
+sudo ln -s /vagrant/srv/eos /home/editionopenaccess/eoa
+
+
 
 ## Read useful values out of the config file
 EOS_CFG=$EOS_DIR/website/website/settings.py                   # EOS Config File
@@ -36,9 +42,11 @@ sudo -u postgres pg_restore -Fc -C -d postgres  $EOS_DIR/djangodb.psql
 
 sudo rm  /etc/nginx/sites-enabled/default
 
+#nginx config
 sudo ln -s /srv/eos/website/website/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
 sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
+#uWSGI config
 sudo ln -s /srv/eos/website/website/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
 sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
 
@@ -48,7 +56,7 @@ SSLDIR=/etc/ssl/lib-26/
 sudo mkdir $SSLDIR
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key -out $SSLDIR/bundle.crt -days 3650 -subj /CN=eos.vm
 
-# restart web server
+# restart web servers
 sudo service nginx restart
-
+sudo service uwsgi restart
 
