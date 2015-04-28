@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", type: "dhcp"
   
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
-  config.bindfs.bind_folder "/vagrant/srv/eos", "/srv/eos", :force_user =>"www-data"
+  config.bindfs.bind_folder "/vagrant/srv/eos", "/srv/eos", :force_user =>"www-data", :force_group =>"www-data"
 
   home_dir = "/home/vagrant"
 

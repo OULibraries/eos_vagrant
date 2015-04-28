@@ -1,4 +1,9 @@
 
+# EOS Web stack
+sudo apt-get install -y nginx-full uwsgi uwsgi-plugin-python
+sudo pip install uwsgi
+
+
 # configure EOS location 
 EOS_DIR=/srv/eos
 
@@ -6,8 +11,8 @@ EOS_DIR=/srv/eos
 sudo useradd --system eosweb
 
 # make legacy paths until we have time to clean them up
-sudo mkdir /home/editionopenacess/
-sudo ln -s /vagrant/srv/eos /home/editionopenaccess/eoa
+sudo mkdir /home/editionopenaccess/
+sudo ln -s /srv/eos /home/editionopenaccess/eoa
 
 
 
@@ -22,6 +27,9 @@ EOS_PASS=` echo $EOS_DB_URL |  cut -d "," -f 4 |  xargs`
 EOS_DB_HOST=` echo $EOS_DB_URL |  cut -d "," -f 5 |  xargs`
 EOS_DB_PORT=` echo $EOS_DB_URL |  cut -d "," -f 6 |  xargs`
 
+
+# update uwsgi start script 
+sudo sed --in-place  's|DAEMON="/usr/bin/uwsgi"|DAEMON="/usr/local/bin/uwsgi"|' /etc/init.d/uwsgi
 
 # Create the EOS user
 sudo -u postgres  cat <<EOF | sudo -u postgres psql
@@ -50,6 +58,9 @@ sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enable
 sudo ln -s /srv/eos/website/website/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
 sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
 
+# set up uWSGI with upstart
+sudo ln -s /srv/eos/etc/uwsgi.conf /etc/init/uwsgi.conf
+sudo initctl reload-configuration
 
 # do ssl stuff
 SSLDIR=/etc/ssl/lib-26/

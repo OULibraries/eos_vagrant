@@ -30,9 +30,5 @@ sudo apt-get -y install postgresql
 # Restart so that all new config is loaded:
 sudo service postgresql restart
 
-# EOS Web stack
-sudo apt-get install -y nginx-full uwsgi uwsgi-plugin-python
-
-
 # bindfs to remount nfs shares
 sudo apt-get install -y bindfs
