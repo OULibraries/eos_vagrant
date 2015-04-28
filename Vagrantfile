@@ -3,7 +3,8 @@
 
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "phusion/ubuntu-14.04-amd64"
+
+  config.vm.box = "ubuntu/trusty64"
 
   config.vm.hostname = "eos.vm"
 
