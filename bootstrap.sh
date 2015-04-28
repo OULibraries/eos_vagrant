@@ -21,7 +21,7 @@ sudo apt-get -y install chrony
 
 
 # python and pip
-sudo apt-get install -y python python-pip
+sudo apt-get install -y python python-pip python-dev
 sudo pip install -U pip
 
 # Install Postgresql
@@ -32,3 +32,7 @@ sudo service postgresql restart
 
 # bindfs to remount nfs shares
 sudo apt-get install -y bindfs
+
+
+# uninstall any junk that isn't needed anymore
+sudo apt-get autoremove
