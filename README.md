@@ -15,10 +15,4 @@ Currently requires:
 * clone eos code to .../srv/eos
 * run "vagrant up"
 
-This will run, then fail.
-
-* `vagrant ssh`
-* `sudo bash /vagrant/bootstrap.sh` to complete initial package install. Will require manually doing the grub thingy that is breaking the install
-* `sudo bash /vagrant/eosh.sh` to complete the app install.
-
-Then you should have a running version of eos 
+And you should have a runningish version of EOS. 
