@@ -1,6 +1,6 @@
 
 # EOS Web stack
-sudo apt-get install -y nginx-full uwsgi uwsgi-plugin-python
+sudo apt-get install -y nginx-full
 sudo pip install uwsgi
 
 
@@ -38,7 +38,7 @@ CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
 EOF
 
 # Create the the EOS Web database
-sudo -u postgres pg_restore -Fc -C -d postgres  $EOS_DIR/djangodb.psql
+sudo -u postgres pg_restore -C -d postgres  $EOS_DIR/djangodb.psql
 
 # # Give ownership to the EOS user
 # sudo -u postgres  cat <<EOF | sudo -u postgres psql
@@ -51,11 +51,11 @@ sudo -u postgres pg_restore -Fc -C -d postgres  $EOS_DIR/djangodb.psql
 sudo rm  /etc/nginx/sites-enabled/default
 
 #nginx config
-sudo ln -s /srv/eos/website/website/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
+sudo ln -s /srv/eos/etc/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
 sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
 #uWSGI config
-sudo ln -s /srv/eos/website/website/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
+sudo ln -s /srv/eos/etc/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
 sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
 
 # set up uWSGI with upstart
