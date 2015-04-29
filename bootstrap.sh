@@ -35,4 +35,4 @@ sudo apt-get install -y bindfs
 
 
 # uninstall any junk that isn't needed anymore
-sudo apt-get autoremove
+sudo apt-get -y autoremove
