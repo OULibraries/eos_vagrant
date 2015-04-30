@@ -34,7 +34,8 @@ CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
 EOF
 
 # Create the the EOS Web database
-sudo -u postgres pg_restore -C -d postgres  $EOS_DIR/var/djangodb.psql
+sudo -u postgres createdb djangodb
+sudo -u postgres psql djangodb  $EOS_DIR/var/djangodb.psql
 
 # # Give ownership to the EOS user
 # sudo -u postgres  cat <<EOF | sudo -u postgres psql
