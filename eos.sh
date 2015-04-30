@@ -1,7 +1,7 @@
 
 # EOS Web stack
-sudo apt-get install -y nginx-full libpcre3 libpcre3-dev
-sudo pip install uwsgi
+sudo apt-get install -y nginx-full libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libpq-dev
+sudo pip install uwsgi virtualenv
 
 
 # configure EOS location 
@@ -13,8 +13,6 @@ sudo useradd --system eosweb
 # make legacy paths until we have time to clean them up
 sudo mkdir /home/editionopenaccess/
 sudo ln -s /srv/eos /home/editionopenaccess/eoa
-
-
 
 ## Read useful values out of the config file
 EOS_CFG=$EOS_DIR/website/website/settings.py                   # EOS Config File
