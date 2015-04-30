@@ -55,6 +55,8 @@ sudo ln -s /srv/eos/etc/website_nginx.conf /etc/nginx/sites-available/website_ng
 sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
 #uWSGI config
+sudo mkdir -p /etc/uwsgi/apps-available
+sudo mkdir /etc/uwsgi/apps-enabled
 sudo ln -s /srv/eos/etc/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
 sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
 
