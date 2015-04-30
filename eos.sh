@@ -27,10 +27,6 @@ EOS_PASS=` echo $EOS_DB_URL |  cut -d "," -f 4 |  xargs`
 EOS_DB_HOST=` echo $EOS_DB_URL |  cut -d "," -f 5 |  xargs`
 EOS_DB_PORT=` echo $EOS_DB_URL |  cut -d "," -f 6 |  xargs`
 
-
-# update uwsgi start script 
-sudo sed --in-place  's|DAEMON="/usr/bin/uwsgi"|DAEMON="/usr/local/bin/uwsgi"|' /etc/init.d/uwsgi
-
 # Create the EOS user
 sudo -u postgres  cat <<EOF | sudo -u postgres psql
 -- Create the database user:
@@ -38,7 +34,7 @@ CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
 EOF
 
 # Create the the EOS Web database
-sudo -u postgres pg_restore -C -d postgres  $EOS_DIR/djangodb.psql
+sudo -u postgres pg_restore -C -d postgres  $EOS_DIR/var/djangodb.psql
 
 # # Give ownership to the EOS user
 # sudo -u postgres  cat <<EOF | sudo -u postgres psql
