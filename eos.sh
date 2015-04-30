@@ -1,6 +1,6 @@
 
 # EOS Web stack
-sudo apt-get install -y nginx-full
+sudo apt-get install -y nginx-full libpcre3 libpcre3-dev
 sudo pip install uwsgi
 
 
