@@ -2,6 +2,11 @@
 # BASICS
 ###
 
+## Swap file
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
 
 # Update
 sudo apt-get -y update && apt-get -y upgrade
