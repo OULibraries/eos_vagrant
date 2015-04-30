@@ -4,7 +4,7 @@ sudo apt-get install -y nginx-full libpcre3 libpcre3-dev libxml2-dev libxslt1-de
 sudo pip install uwsgi virtualenv
 
 ## create virtual environment
-sudo /vagrant/bin/venv.sh
+sudo sh /vagrant/bin/venv.sh
 
 # configure EOS location 
 EOS_DIR=/srv/eos
