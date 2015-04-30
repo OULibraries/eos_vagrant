@@ -13,6 +13,8 @@ Currently requires:
 
 ## Running
 
+To get things started do:
+
 * `git clone https://github.com/OULibraries/eos_vagrant`
 * clone eos code to `.../eos_vagrant/srv/eos`
 * run `vagrant up`
