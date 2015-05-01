@@ -35,7 +35,7 @@ EOF
 
 # Create the the EOS Web database
 sudo -u postgres createdb djangodb
-sudo -u postgres psql djangodb  $EOS_DIR/var/djangodb.psql
+sudo -u postgres psql djangodb  < $EOS_DIR/var/djangodb.psql
 
 # # Give ownership to the EOS user
 # sudo -u postgres  cat <<EOF | sudo -u postgres psql
