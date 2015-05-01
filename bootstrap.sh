@@ -18,9 +18,8 @@ sudo apt-get -y install openssh-server
 sudo apt-get -y install build-essential automake libtool
 
 # Utilities
-sudo apt-get -y install git wget curl tree psmisc emacs24-nox vim ack-grep tmux screen
+sudo apt-get -y install git wget curl tree psmisc emacs24-nox vim ack-grep tmux screen lynx
 sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
-sudo apt-get install lynx
 
 # vmfriendly ntpd replacement
 sudo apt-get -y install chrony
