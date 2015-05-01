@@ -1,9 +1,9 @@
 
 # EOS Web stack
 sudo apt-get install -y nginx-full libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libpq-dev
+sudo pip install uwsgi virtualenv
 
 ## create virtual environment
-sudo pip install virtualenv
 sudo sh /vagrant/bin/venv.sh
 
 # configure EOS location 
@@ -51,6 +51,12 @@ sudo rm  /etc/nginx/sites-enabled/default
 sudo ln -s /srv/eos/etc/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
 sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
+#uWSGI config
+sudo mkdir -p /etc/uwsgi/apps-available
+sudo mkdir /etc/uwsgi/apps-enabled
+sudo ln -s /srv/eos/etc/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
+sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
+
 # set up uWSGI with upstart
 sudo ln -s /srv/eos/etc/uwsgi.conf /etc/init/uwsgi.conf
 sudo initctl reload-configuration
@@ -63,3 +69,4 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key
 # restart web servers
 sudo service nginx restart
 sudo service uwsgi restart
+
