@@ -1,2 +1,5 @@
 .vagrant/**
 srv/eos/
+EOASkripts/
+eoa-django/
+djangodb.psql

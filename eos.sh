@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# TODO: either remove vestiges of the old way, remove the new way, or combine both into a third way
 
 # EOS Web stack
 sudo apt-get install -y nginx-full libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libpq-dev
@@ -8,6 +11,7 @@ sudo sh /vagrant/bin/venv.sh
 
 # configure EOS location 
 EOS_DIR=/srv/eos
+mkdir -p $EOS_DIR
 
 # create service account for eos
 sudo useradd --system eosweb
@@ -16,6 +20,8 @@ sudo useradd --system eosweb
 sudo mkdir /home/editionopenaccess/
 sudo ln -s /srv/eos /home/editionopenaccess/eoa
 
+git clone /vagrant/eoa-django/ ~vagrant/eoa-django
+ln -s ~vagrant/eoa-django/eoa/website/ $EOS_DIR/
 ## Read useful values out of the config file
 EOS_CFG=$EOS_DIR/website/website/settings.py                   # EOS Config File
 
@@ -34,6 +40,8 @@ CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
 EOF
 
 # Create the the EOS Web database
+cp /vagrant/djangodb.psql $EOS_DIR/var/
+
 sudo -u postgres createdb djangodb
 sudo -u postgres psql djangodb  < $EOS_DIR/var/djangodb.psql
 
@@ -68,5 +76,22 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key
 
 # restart web servers
 sudo service nginx restart
-sudo service uwsgi restart
 
+cd ~vagrant
+git clone /vagrant/EOASkripts/
+
+source /srv/venv/bin/activate
+cd ~vagrant/eoa-django/
+apt-get install -y libjpeg-dev
+pip install -r requirements.txt
+cd eoa/website/
+mkdir /home/user/
+ln -s /home/vagrant/eoa-django/ /home/user/EOADjango
+pip install django-medusa # temporarily, until I commit requirements.txt
+
+
+python manage.py syncdb --noinput
+python manage.py migrate
+nohup python manage.py runserver 0.0.0.0:8000 &
+GUEST_IP="$(ifconfig eth1 | grep "inet addr" | sed "s/[^:]*://;s/ *Bcast.*//")"
+echo "connect to http://$GUEST_IP:8000/index.html"

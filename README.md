@@ -17,6 +17,9 @@ To get things started do:
 
 * `git clone https://github.com/OULibraries/eos_vagrant`
 * clone eos code to `.../eos_vagrant/srv/eos`
+* clone the eos code into `.../eos_vagrant/eoa-django`
+* clone the eos scripts into `.../eos_vagrant/EOASkripts`
+* copy the Django PostgreSQL into `.../eos_vagrant/djangodb.psql`
 * run `vagrant up`
 
 If everything worked you shold be able to:
