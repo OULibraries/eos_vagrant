@@ -4,7 +4,8 @@
 
 # EOS Web stack
 sudo apt-get install -y nginx-full libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libpq-dev
-sudo pip install uwsgi virtualenv
+#sudo pip install uwsgi virtualenv
+sudo pip install virtualenv
 
 ## create virtual environment
 sudo sh /vagrant/bin/venv.sh
@@ -33,7 +34,7 @@ EOS_PASS=` echo $EOS_DB_URL |  cut -d "," -f 4 |  xargs`
 EOS_DB_HOST=` echo $EOS_DB_URL |  cut -d "," -f 5 |  xargs`
 EOS_DB_PORT=` echo $EOS_DB_URL |  cut -d "," -f 6 |  xargs`
 
-# Create the EOS user
+# Create the EOS user for the database
 sudo -u postgres  cat <<EOF | sudo -u postgres psql
 -- Create the database user:
 CREATE USER $EOS_USER WITH PASSWORD '$EOS_PASS';
@@ -53,42 +54,42 @@ sudo -u postgres psql djangodb  < $EOS_DIR/var/djangodb.psql
 
 # wire up web app configuration 
 
-sudo rm  /etc/nginx/sites-enabled/default
+#sudo rm  /etc/nginx/sites-enabled/default
 
 #nginx config
-sudo ln -s /srv/eos/etc/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
-sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
+#sudo ln -s /srv/eos/etc/website_nginx.conf /etc/nginx/sites-available/website_nginx.conf
+#sudo ln -s /etc/nginx/sites-available/website_nginx.conf /etc/nginx/sites-enabled/website_nginx.conf
 
 #uWSGI config
-sudo mkdir -p /etc/uwsgi/apps-available
-sudo mkdir /etc/uwsgi/apps-enabled
-sudo ln -s /srv/eos/etc/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
-sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
+#sudo mkdir -p /etc/uwsgi/apps-available
+#sudo mkdir /etc/uwsgi/apps-enabled
+#sudo ln -s /srv/eos/etc/website_uwsgi.ini /etc/uwsgi/apps-available/website_uwsgi.ini
+#sudo ln -s /etc/uwsgi/apps-available/website_uwsgi.ini /etc/uwsgi/apps-enabled/website_uwsgi.ini
 
 # set up uWSGI with upstart
-sudo ln -s /srv/eos/etc/uwsgi.conf /etc/init/uwsgi.conf
-sudo initctl reload-configuration
+#sudo ln -s /srv/eos/etc/uwsgi.conf /etc/init/uwsgi.conf
+#sudo initctl reload-configuration
 
 # do ssl stuff
-SSLDIR=/etc/ssl/lib-26/
-sudo mkdir $SSLDIR
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key -out $SSLDIR/bundle.crt -days 3650 -subj /CN=eos.vm
+#SSLDIR=/etc/ssl/lib-26/
+#sudo mkdir $SSLDIR
+#sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $SSLDIR/key.key -out $SSLDIR/bundle.crt -days 3650 -subj /CN=eos.vm
 
 # restart web servers
-sudo service nginx restart
+#sudo service nginx restart
 
 cd ~vagrant
 git clone /vagrant/EOASkripts/
+pushd EOASkripts
+git checkout vagrant
+popd
 
 source /srv/venv/bin/activate
 cd ~vagrant/eoa-django/
-apt-get install -y libjpeg-dev
 pip install -r requirements.txt
 cd eoa/website/
 mkdir /home/user/
 ln -s /home/vagrant/eoa-django/ /home/user/EOADjango
-pip install django-medusa # temporarily, until I commit requirements.txt
-
 
 python manage.py syncdb --noinput
 python manage.py migrate
