@@ -17,3 +17,7 @@ apt-get install -y tralics texlive-xetex xzdec biber pdftk
 cd /home/vagrant/
 tlmgr init-usertree
 tlmgr install l3kernel l3packages fontspec metalogo etoolbox makecmds xkeyval zhspacing unicode-math ucharcat filehook koma-script xifthen ifplatform ifmtarg braket mhchem l3experimental chemgreek here paralist footmisc float caption url mdwtools imakeidx setspace titlesec xcolor csquotes biblatex logreq xpatch
+
+
+# for importing into Django
+apt-get install -y graphicsmagick

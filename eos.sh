@@ -86,6 +86,7 @@ popd
 
 source /srv/venv/bin/activate
 cd ~vagrant/eoa-django/
+git checkout dev-ou-vagrant
 pip install -r requirements.txt
 cd eoa/website/
 mkdir /home/user/
